@@ -2,28 +2,32 @@
 
   "use strict";
 
-
   const params =
     new URLSearchParams(
       window.location.search
     );
 
-
   if (
-    params.get(
-      "simtest"
-    ) !== "1"
+    params.get("simtest") !== "1"
   ) {
-
     return;
   }
 
 
-  let running =
-    false;
+  let running = false;
 
 
   function createPanel() {
+
+    const oldPanel =
+      document.getElementById(
+        "bulkSimulationSeeder"
+      );
+
+    if (oldPanel) {
+      oldPanel.remove();
+    }
+
 
     const panel =
       document.createElement(
@@ -31,11 +35,16 @@
       );
 
 
+    panel.id =
+      "bulkSimulationSeeder";
+
+
     panel.style.cssText = `
       position:fixed;
       right:20px;
       bottom:20px;
       width:340px;
+      max-width:calc(100vw - 40px);
       padding:18px;
       background:#ffffff;
       color:#172033;
@@ -43,6 +52,7 @@
       box-shadow:0 14px 45px rgba(0,0,0,.28);
       z-index:999999;
       font-family:Arial,sans-serif;
+      border:1px solid #dbe3ec;
     `;
 
 
@@ -63,6 +73,7 @@
           font-size:12px;
           color:#64748b;
           margin-bottom:14px;
+          line-height:1.5;
         "
       >
         Bulk Simulation Seeder
@@ -104,7 +115,7 @@
           color:#64748b;
         "
       >
-        Menghapus SIM lama dan membuat TEST-SIM-001 sampai TEST-SIM-030.
+        Sistem akan menghapus data SIM lama lalu membuat TEST-SIM-001 sampai TEST-SIM-030.
       </div>
     `;
 
@@ -143,8 +154,7 @@
     }
 
 
-    running =
-      true;
+    running = true;
 
 
     const button =
@@ -159,13 +169,10 @@
       );
 
 
-    button.disabled =
-      true;
-
+    button.disabled = true;
 
     button.textContent =
       "PROCESSING...";
-
 
     status.textContent =
       "Mengirim 1 bulk request...";
@@ -229,22 +236,19 @@
 
 
       status.textContent =
+        "REQUEST TERKIRIM";
+
+      button.textContent =
         "SELESAI";
 
 
-      button.textContent =
-        "DATA BERHASIL DIKIRIM";
-
-
       alert(
-        "Bulk request selesai. Tunggu sekitar 10–20 detik lalu buka/refresh Teacher Dashboard."
+        "Bulk request sudah dikirim. Tunggu sekitar 10–20 detik lalu Refresh Data di Teacher Dashboard."
       );
 
     }
 
-    catch (
-      error
-    ) {
+    catch (error) {
 
       console.error(
         error
@@ -271,8 +275,7 @@
 
     finally {
 
-      running =
-        false;
+      running = false;
     }
   }
 
