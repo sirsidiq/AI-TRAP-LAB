@@ -1,190 +1,401 @@
 /* =========================================================
    AI TRAP LAB
-   SIMULATION SEEDER
-   30 PESERTA SIMULASI
+   FAST SIMULATION SEEDER V2
    ---------------------------------------------------------
-   AKTIF HANYA JIKA URL MEMILIKI ?simtest=1
-   Contoh:
-   https://sirsidiq.github.io/AI-TRAP-LAB/?simtest=1
+   - 30 PESERTA SIMULASI
+   - DATA LEBIH VARIATIF
+   - DISTRIBUSI ITEM ACAK TERKONTROL
+   - SEMUA INDIKATOR CT TERISI
+   - SEMUA DIMENSI CAL TERISI
+   - N-GAIN DIKIRIM
+   - REQUEST DIJALANKAN SECARA BATCH
+   ---------------------------------------------------------
+   Aktif hanya dengan:
+   ?simtest=1
    ========================================================= */
 
 (function () {
   "use strict";
 
-  const ENABLE_PARAM = "simtest";
-  const ENABLE_VALUE = "1";
-  const SEED_FLAG = "aitrap_simulation_seeded_30";
+  const PARAM_NAME = "simtest";
+  const PARAM_VALUE = "1";
 
   const params =
     new URLSearchParams(
       window.location.search
     );
 
-  const enabled =
-    params.get(ENABLE_PARAM) ===
-    ENABLE_VALUE;
-
-  if (!enabled) {
+  if (
+    params.get(PARAM_NAME) !==
+    PARAM_VALUE
+  ) {
     return;
   }
 
-  console.log(
-    "[AI TRAP LAB] Simulation Seeder aktif."
-  );
+  const CLASS_NAME =
+    "VII-SIM";
+
+  const TOTAL_PARTICIPANTS =
+    30;
+
+  const PREFIX =
+    "SIM-";
+
+  const CONCURRENT_REQUESTS =
+    6;
+
+  let running =
+    false;
+
+  let statusBox =
+    null;
+
+  let progressText =
+    null;
 
 
   /* =======================================================
-     DATASET SIMULASI
+     DETERMINISTIC RANDOM
      ======================================================= */
 
-  const simulationData = [
-    { code:"SIM-001", pre:43, post:67, cal:83, mission:72, response:90 },
-    { code:"SIM-002", pre:47, post:70, cal:79, mission:70, response:90 },
-    { code:"SIM-003", pre:50, post:77, cal:88, mission:78, response:92 },
-    { code:"SIM-004", pre:53, post:73, cal:83, mission:73, response:90 },
-    { code:"SIM-005", pre:57, post:77, cal:88, mission:78, response:92 },
+  function seededRandom(seed) {
 
-    { code:"SIM-006", pre:40, post:67, cal:79, mission:70, response:90 },
-    { code:"SIM-007", pre:60, post:77, cal:83, mission:73, response:92 },
-    { code:"SIM-008", pre:50, post:73, cal:88, mission:78, response:92 },
-    { code:"SIM-009", pre:47, post:73, cal:83, mission:73, response:90 },
-    { code:"SIM-010", pre:63, post:80, cal:88, mission:78, response:95 },
+    let value =
+      seed % 2147483647;
 
-    { code:"SIM-011", pre:53, post:73, cal:83, mission:73, response:90 },
-    { code:"SIM-012", pre:57, post:77, cal:83, mission:73, response:92 },
-    { code:"SIM-013", pre:43, post:73, cal:79, mission:70, response:87 },
-    { code:"SIM-014", pre:67, post:80, cal:88, mission:78, response:95 },
-    { code:"SIM-015", pre:50, post:77, cal:83, mission:73, response:90 },
+    if (value <= 0) {
+      value += 2147483646;
+    }
 
-    { code:"SIM-016", pre:60, post:77, cal:88, mission:78, response:95 },
-    { code:"SIM-017", pre:47, post:73, cal:79, mission:70, response:87 },
-    { code:"SIM-018", pre:53, post:73, cal:83, mission:73, response:90 },
-    { code:"SIM-019", pre:57, post:73, cal:88, mission:78, response:92 },
-    { code:"SIM-020", pre:63, post:80, cal:83, mission:73, response:92 },
+    return function () {
 
-    { code:"SIM-021", pre:40, post:67, cal:79, mission:70, response:87 },
-    { code:"SIM-022", pre:50, post:73, cal:83, mission:73, response:90 },
-    { code:"SIM-023", pre:53, post:73, cal:88, mission:78, response:92 },
-    { code:"SIM-024", pre:60, post:77, cal:83, mission:73, response:92 },
-    { code:"SIM-025", pre:47, post:73, cal:79, mission:70, response:87 },
+      value =
+        value * 16807 %
+        2147483647;
 
-    { code:"SIM-026", pre:57, post:73, cal:88, mission:78, response:95 },
-    { code:"SIM-027", pre:63, post:80, cal:83, mission:73, response:92 },
-    { code:"SIM-028", pre:50, post:73, cal:88, mission:78, response:92 },
-    { code:"SIM-029", pre:43, post:70, cal:79, mission:70, response:87 },
-    { code:"SIM-030", pre:67, post:80, cal:88, mission:78, response:95 }
-  ];
-
-
-  /* =======================================================
-     HELPER
-     ======================================================= */
-
-  function wait(ms) {
-    return new Promise(
-      resolve => setTimeout(resolve, ms)
-    );
+      return (
+        value - 1
+      ) / 2147483646;
+    };
   }
 
+
+  function randomInt(
+    random,
+    min,
+    max
+  ) {
+
+    return Math.floor(
+      random() *
+      (
+        max - min + 1
+      )
+    ) + min;
+  }
+
+
+  function shuffle(
+    array,
+    random
+  ) {
+
+    const result =
+      [...array];
+
+    for (
+      let i =
+        result.length - 1;
+      i > 0;
+      i--
+    ) {
+
+      const j =
+        Math.floor(
+          random() *
+          (i + 1)
+        );
+
+      [
+        result[i],
+        result[j]
+      ] =
+      [
+        result[j],
+        result[i]
+      ];
+    }
+
+    return result;
+  }
+
+
+  /* =======================================================
+     SCORE PROFILE
+     ======================================================= */
+
+  function buildParticipantProfile(
+    index
+  ) {
+
+    const random =
+      seededRandom(
+        20260914 +
+        index * 917
+      );
+
+
+    /*
+      Pretest sengaja dibuat bervariasi
+      kira-kira 40–67.
+    */
+
+    const preTarget =
+      randomInt(
+        random,
+        41,
+        65
+      );
+
+
+    /*
+      Gain 14–31 poin.
+      Posttest dibatasi maksimal 90.
+    */
+
+    const gain =
+      randomInt(
+        random,
+        15,
+        29
+      );
+
+
+    const postTarget =
+      Math.min(
+        90,
+        preTarget + gain
+      );
+
+
+    /*
+      CAL 68–92.
+    */
+
+    const calTarget =
+      randomInt(
+        random,
+        72,
+        91
+      );
+
+
+    /*
+      Respons skala 1–4.
+      Target 3.20–3.90.
+    */
+
+    const responseAverage =
+      Number(
+        (
+          3.20 +
+          random() * 0.65
+        ).toFixed(2)
+      );
+
+
+    /*
+      Mission process 65–91.
+    */
+
+    const missionTarget =
+      randomInt(
+        random,
+        67,
+        89
+      );
+
+
+    return {
+      code:
+        PREFIX +
+        String(index)
+          .padStart(3, "0"),
+
+      preTarget,
+
+      postTarget,
+
+      calTarget,
+
+      missionTarget,
+
+      responseAverage
+    };
+  }
+
+
+  function buildProfiles() {
+
+    const profiles = [];
+
+    for (
+      let i = 1;
+      i <= TOTAL_PARTICIPANTS;
+      i++
+    ) {
+
+      profiles.push(
+        buildParticipantProfile(i)
+      );
+    }
+
+    return profiles;
+  }
+
+
+  const PROFILES =
+    buildProfiles();
+
+
+  /* =======================================================
+     OPTION HELPER
+     ======================================================= */
 
   function getWrongOption(
     options,
     correctValue
   ) {
-    if (!Array.isArray(options)) {
-      return null;
+
+    if (
+      !Array.isArray(options)
+    ) {
+      return correctValue;
     }
 
     const wrong =
       options.find(
-        item =>
-          item.value !== correctValue
+        option =>
+          option.value !==
+          correctValue
       );
 
     return wrong
       ? wrong.value
-      : null;
+      : correctValue;
   }
 
 
-  function buildResponseForScore(
+  /* =======================================================
+     ITEM SCORE → RESPONSE
+     ======================================================= */
+
+  function responseForItemScore(
     question,
-    wantedItemScore
+    score
   ) {
-
-    const correctAnswer =
-      question.correctAnswer;
-
-    const correctReason =
-      question.correctReason;
 
     const wrongAnswer =
       getWrongOption(
         question.answers,
-        correctAnswer
+        question.correctAnswer
       );
 
     const wrongReason =
       getWrongOption(
         question.reasons,
-        correctReason
+        question.correctReason
       );
 
-    if (wantedItemScore === 3) {
-      return {
-        id: question.id,
-        answer: correctAnswer,
-        reason: correctReason
-      };
-    }
 
-    if (wantedItemScore === 2) {
-      return {
-        id: question.id,
-        answer: correctAnswer,
-        reason:
-          wrongReason ||
-          correctReason
-      };
-    }
+    if (score === 3) {
 
-    if (wantedItemScore === 1) {
       return {
-        id: question.id,
+        id:
+          question.id,
+
         answer:
-          wrongAnswer ||
-          correctAnswer,
-        reason: correctReason
+          question.correctAnswer,
+
+        reason:
+          question.correctReason
       };
     }
+
+
+    if (score === 2) {
+
+      return {
+        id:
+          question.id,
+
+        answer:
+          question.correctAnswer,
+
+        reason:
+          wrongReason
+      };
+    }
+
+
+    if (score === 1) {
+
+      return {
+        id:
+          question.id,
+
+        answer:
+          wrongAnswer,
+
+        reason:
+          question.correctReason
+      };
+    }
+
 
     return {
-      id: question.id,
+      id:
+        question.id,
+
       answer:
-        wrongAnswer ||
-        correctAnswer,
+        wrongAnswer,
+
       reason:
-        wrongReason ||
-        correctReason
+        wrongReason
     };
   }
 
 
-  function createAssessmentResponses(
+  /* =======================================================
+     RANDOM SCORE DISTRIBUTION
+     ======================================================= */
+
+  function createBalancedItemScores(
     questions,
-    targetScore100
+    targetScore100,
+    seed
   ) {
 
+    const random =
+      seededRandom(seed);
+
+    const count =
+      questions.length;
+
     const maxRaw =
-      questions.length * 3;
+      count * 3;
 
     let targetRaw =
       Math.round(
         (
-          targetScore100 /
+          Number(
+            targetScore100
+          ) /
           100
-        ) * maxRaw
+        ) *
+        maxRaw
       );
+
 
     targetRaw =
       Math.max(
@@ -195,55 +406,230 @@
         )
       );
 
+
+    /*
+      Semua item mulai dari skor 1.
+      Tujuannya agar tidak ada indikator
+      yang langsung menjadi 0 hanya karena
+      berada di bagian akhir.
+    */
+
     const scores =
       new Array(
-        questions.length
-      ).fill(0);
+        count
+      ).fill(1);
 
-    let remaining =
-      targetRaw;
 
-    for (
-      let i = 0;
-      i < scores.length;
-      i++
+    let currentRaw =
+      count;
+
+
+    /*
+      Jika target lebih rendah dari baseline.
+    */
+
+    if (
+      targetRaw <
+      currentRaw
     ) {
 
-      const give =
-        Math.min(
-          3,
-          remaining
+      const order =
+        shuffle(
+          [
+            ...Array(count).keys()
+          ],
+          random
         );
 
-      scores[i] =
-        give;
 
-      remaining -=
-        give;
+      for (
+        const index of order
+      ) {
 
-      if (remaining <= 0) {
-        break;
+        if (
+          currentRaw <=
+          targetRaw
+        ) {
+          break;
+        }
+
+        scores[index] =
+          0;
+
+        currentRaw--;
+      }
+
+    } else {
+
+      /*
+        Naikkan item satu demi satu
+        dalam urutan acak.
+
+        Ini membuat skor tersebar
+        ke seluruh indikator,
+        tidak menumpuk pada soal awal.
+      */
+
+      let candidates =
+        shuffle(
+          [
+            ...Array(count).keys()
+          ],
+          random
+        );
+
+
+      while (
+        currentRaw <
+        targetRaw
+      ) {
+
+        let changed =
+          false;
+
+
+        for (
+          const index of candidates
+        ) {
+
+          if (
+            currentRaw >=
+            targetRaw
+          ) {
+            break;
+          }
+
+
+          if (
+            scores[index] <
+            3
+          ) {
+
+            scores[index]++;
+
+            currentRaw++;
+
+            changed =
+              true;
+          }
+        }
+
+
+        if (!changed) {
+          break;
+        }
+
+
+        candidates =
+          shuffle(
+            candidates,
+            random
+          );
       }
     }
 
 
+    /*
+      Shuffle ulang skor antar item.
+    */
+
+    return shuffle(
+      scores,
+      random
+    );
+  }
+
+
+  function createAssessmentResponses(
+    questions,
+    targetScore100,
+    seed
+  ) {
+
+    const itemScores =
+      createBalancedItemScores(
+        questions,
+        targetScore100,
+        seed
+      );
+
+
     return questions.map(
-      (question, index) =>
-        buildResponseForScore(
+      (
+        question,
+        index
+      ) =>
+        responseForItemScore(
           question,
-          scores[index]
+          itemScores[index]
         )
     );
   }
 
 
-  function buildAssessmentRecord(
-    participantCode,
-    className,
-    assessmentName,
-    questions,
-    responses
+  /* =======================================================
+     NORMALIZE INDICATOR KEY
+     ======================================================= */
+
+  function normalizeIndicatorKey(
+    key
   ) {
+
+    return String(
+      key || ""
+    )
+      .replace(
+        /\s+/g,
+        ""
+      )
+      .replace(
+        /[^A-Za-z]/g,
+        ""
+      );
+  }
+
+
+  function normalizeIndicators(
+    indicators
+  ) {
+
+    const result = {};
+
+    Object.keys(
+      indicators || {}
+    ).forEach(
+      key => {
+
+        result[
+          normalizeIndicatorKey(
+            key
+          )
+        ] =
+          indicators[key];
+      }
+    );
+
+    return result;
+  }
+
+
+  /* =======================================================
+     ASSESSMENT RESULT
+     ======================================================= */
+
+  function makeAssessment(
+    questions,
+    target,
+    seed
+  ) {
+
+    const responses =
+      createAssessmentResponses(
+        questions,
+        target,
+        seed
+      );
+
 
     const result =
       calculateAssessmentResult(
@@ -251,387 +637,164 @@
         responses
       );
 
-    const now =
-      new Date()
-        .toISOString();
 
     return {
-      completed: true,
-      participantCode,
-      className,
-      assessment:
-        assessmentName,
-      startedAt:
-        now,
-      submittedAt:
-        now,
       responses,
+
       rawScore:
         result.rawScore,
+
       maxScore:
         result.maxScore,
+
       score100:
         result.score100,
+
       indicators:
-        result.indicators,
+        normalizeIndicators(
+          result.indicators
+        ),
+
       itemResults:
         result.itemResults
     };
   }
 
 
-  function getMissionJustification(
-    mission
+  /* =======================================================
+     N-GAIN
+     ======================================================= */
+
+  function calculateNGain(
+    pretest,
+    posttest
   ) {
 
-    const keywords =
-      mission.justify &&
-      Array.isArray(
-        mission.justify.keywords
-      )
-        ? mission.justify.keywords
-        : [];
+    const pre =
+      Number(pretest);
 
-    if (!keywords.length) {
-      return (
-        "Klaim perlu diperiksa dengan bukti sebelum dibuat kesimpulan."
-      );
-    }
-
-    return (
-      "Bukti menunjukkan " +
-      keywords.join(" ") +
-      " sehingga klaim harus diverifikasi sebelum diterima."
-    );
-  }
+    const post =
+      Number(posttest);
 
 
-  function getMissionAnswers(
-    mission,
-    quality
-  ) {
-
-    const correctChecks =
-      mission.check &&
-      Array.isArray(
-        mission.check.correctAnswers
-      )
-        ? [
-            ...mission.check.correctAnswers
-          ]
-        : [];
-
-    let selectedChecks =
-      correctChecks;
-
-    let testAnswer =
-      mission.test.correctAnswer;
-
-    let correctAnswer =
-      mission.correct.correctAnswer;
-
-    let claimAnswer =
-      mission.claim.bestAnswer;
-
-    if (quality === "medium") {
-
-      selectedChecks =
-        correctChecks.length > 1
-          ? correctChecks.slice(
-              0,
-              correctChecks.length - 1
-            )
-          : correctChecks;
-
-    }
-
-    if (quality === "low") {
-
-      selectedChecks =
-        correctChecks.length
-          ? [
-              correctChecks[0]
-            ]
-          : [];
-
-      const wrongTest =
-        getWrongOption(
-          mission.test.options,
-          mission.test.correctAnswer
-        );
-
-      if (wrongTest) {
-        testAnswer =
-          wrongTest;
-      }
-    }
-
-    return {
-      claim:
-        claimAnswer,
-      check:
-        selectedChecks,
-      test:
-        testAnswer,
-      correct:
-        correctAnswer,
-      justify:
-        getMissionJustification(
-          mission
-        )
-    };
-  }
-
-
-  function calculateMissionObjectScores(
-    mission,
-    missionAnswers
-  ) {
-
-    const expected =
-      [
-        ...mission.check.correctAnswers
-      ].sort();
-
-    const selected =
-      [
-        ...missionAnswers.check
-      ].sort();
-
-    const exact =
-      expected.length ===
-        selected.length &&
-      expected.every(
-        (value, index) =>
-          value ===
-          selected[index]
-      );
-
-    const claimScore =
-      missionAnswers.claim ===
-      mission.claim.bestAnswer
-        ? 10
-        : 0;
-
-
-    let checkScore = 0;
-
-    if (exact) {
-
-      checkScore = 20;
-
-    } else if (
-      expected.length &&
-      selected.length
+    if (
+      !Number.isFinite(pre) ||
+      !Number.isFinite(post)
     ) {
+      return null;
+    }
 
-      const correctSelected =
-        selected.filter(
-          value =>
-            expected.includes(
-              value
-            )
-        ).length;
 
-      const incorrectSelected =
-        selected.filter(
-          value =>
-            !expected.includes(
-              value
-            )
-        ).length;
+    if (
+      pre >= 100
+    ) {
+      return 0;
+    }
 
-      let ratio =
+
+    return Number(
+      (
         (
-          correctSelected -
-          incorrectSelected
+          post - pre
         ) /
-        expected.length;
-
-      ratio =
-        Math.max(
-          0,
-          Math.min(
-            1,
-            ratio
-          )
-        );
-
-      checkScore =
-        Math.round(
-          ratio * 20
-        );
-    }
-
-
-    const testScore =
-      missionAnswers.test ===
-      mission.test.correctAnswer
-        ? 25
-        : 0;
-
-
-    const correctScore =
-      missionAnswers.correct ===
-      mission.correct.correctAnswer
-        ? 20
-        : 0;
-
-
-    const justifyScore =
-      calculateGamificationJustify(
-        missionAnswers.justify,
-        mission.justify.keywords || []
-      );
-
-
-    return {
-      claim:
-        claimScore,
-      check:
-        checkScore,
-      test:
-        testScore,
-      correct:
-        correctScore,
-      justify:
-        justifyScore
-    };
-  }
-
-
-  function getMissionQuality(
-    targetMissionAverage,
-    missionIndex
-  ) {
-
-    if (
-      targetMissionAverage >= 77
-    ) {
-      return (
-        missionIndex % 5 === 0
-          ? "medium"
-          : "high"
-      );
-    }
-
-    if (
-      targetMissionAverage >= 73
-    ) {
-      return (
-        missionIndex % 4 === 0
-          ? "medium"
-          : "high"
-      );
-    }
-
-    return (
-      missionIndex % 3 === 0
-        ? "low"
-        : "medium"
+        (
+          100 - pre
+        )
+      ).toFixed(4)
     );
   }
 
 
-  function buildStudentResponseValues(
-    percentage
+  /* =======================================================
+     STUDENT RESPONSE
+     ======================================================= */
+
+  function buildResponseData(
+    targetAverage,
+    seed
   ) {
 
-    const max =
-      responseStatements.length *
-      4;
+    const random =
+      seededRandom(seed);
 
-    let targetTotal =
-      Math.round(
-        (
-          percentage /
-          100
-        ) * max
-      );
-
-    targetTotal =
-      Math.max(
-        responseStatements.length,
-        Math.min(
-          max,
-          targetTotal
-        )
-      );
 
     const values =
-      new Array(
-        responseStatements.length
-      ).fill(1);
+      responseStatements.map(
+        () => {
 
-    let remaining =
-      targetTotal -
-      responseStatements.length;
+          const probability =
+            random();
 
 
-    for (
-      let i = 0;
-      i < values.length;
-      i++
-    ) {
+          if (
+            targetAverage >= 3.65
+          ) {
 
-      const add =
-        Math.min(
-          3,
-          remaining
-        );
+            if (
+              probability <
+              0.72
+            ) {
+              return 4;
+            }
 
-      values[i] +=
-        add;
-
-      remaining -=
-        add;
-
-      if (remaining <= 0) {
-        break;
-      }
-    }
+            return 3;
+          }
 
 
-    return values;
-  }
+          if (
+            targetAverage >= 3.40
+          ) {
+
+            if (
+              probability <
+              0.50
+            ) {
+              return 4;
+            }
+
+            if (
+              probability <
+              0.94
+            ) {
+              return 3;
+            }
+
+            return 2;
+          }
 
 
-  function buildStudentResponseRecord(
-    participantCode,
-    className,
-    percentage
-  ) {
+          if (
+            probability <
+            0.25
+          ) {
+            return 4;
+          }
 
-    const values =
-      buildStudentResponseValues(
-        percentage
-      );
+          if (
+            probability <
+            0.83
+          ) {
+            return 3;
+          }
 
-    const responses =
-      values.map(
-        (value, index) => ({
-          id:
-            responseStatements[index].id,
-
-          statement:
-            responseStatements[index].text,
-
-          value
-        })
+          return 2;
+        }
       );
 
 
     const total =
       values.reduce(
-        (sum, value) =>
+        (
+          sum,
+          value
+        ) =>
           sum + value,
         0
       );
 
 
     const maxScore =
-      responseStatements.length *
-      4;
+      values.length * 4;
 
 
     const average =
@@ -643,7 +806,7 @@
       );
 
 
-    const resultPercentage =
+    const percentage =
       Number(
         (
           (
@@ -654,521 +817,984 @@
       );
 
 
-    const now =
-      new Date()
-        .toISOString();
-
-
     return {
-      completed: true,
-      participantCode,
-      className,
-      assessment:
-        "STUDENT_RESPONSE",
-      startedAt:
-        now,
-      submittedAt:
-        now,
+      responses:
+        values.map(
+          (
+            value,
+            index
+          ) => ({
+            id:
+              responseStatements[
+                index
+              ].id,
 
-      scale: {
-        minimum: 1,
-        maximum: 4,
-        labels: {
-          1:
-            "Sangat Tidak Setuju",
-          2:
-            "Tidak Setuju",
-          3:
-            "Setuju",
-          4:
-            "Sangat Setuju"
-        }
-      },
+            statement:
+              responseStatements[
+                index
+              ].text,
 
-      responses,
+            value
+          })
+        ),
 
       reflection: {
         mostHelpful:
-          "Saya belajar bahwa jawaban AI perlu diperiksa dengan bukti sebelum dipercaya.",
+          "Saya lebih memahami bahwa jawaban AI perlu diperiksa melalui bukti, pengujian, dan alasan sebelum dipercaya.",
 
         improvement:
-          "Beberapa mission dapat diberikan petunjuk tambahan agar lebih mudah dipahami."
+          "Beberapa mission dapat dilengkapi petunjuk tambahan agar proses verifikasi lebih mudah dipahami."
       },
 
       summary: {
         total,
         maxScore,
         average,
-        percentage:
-          resultPercentage
+        percentage
       }
     };
   }
 
 
   /* =======================================================
-     API SEND DIRECT
+     MISSION
      ======================================================= */
 
-  async function sendDirect(
-    action,
-    data
+  function buildMissionPayload(
+    participantCode,
+    mission,
+    target,
+    seed
   ) {
 
+    const random =
+      seededRandom(seed);
+
+
+    let claimScore =
+      10;
+
+    let checkScore =
+      20;
+
+    let testScore =
+      25;
+
+    let correctScore =
+      20;
+
+    let justifyScore =
+      25;
+
+
+    /*
+      Buat variasi skor mission.
+    */
+
+    const difficulty =
+      random();
+
+
     if (
-      typeof aitrapSend !==
-      "function"
+      target < 75 ||
+      difficulty <
+      0.18
     ) {
-      throw new Error(
-        "aitrapSend() tidak ditemukan. Pastikan api.js dimuat sebelum simulation-seeder.js."
-      );
+
+      checkScore =
+        random() < 0.5
+          ? 10
+          : 15;
     }
 
-    return await aitrapSend(
-      action,
-      data
-    );
+
+    if (
+      random() <
+      0.16
+    ) {
+
+      justifyScore =
+        random() < 0.5
+          ? 10
+          : 15;
+    }
+
+
+    if (
+      random() <
+      0.10
+    ) {
+
+      testScore =
+        0;
+    }
+
+
+    if (
+      random() <
+      0.08
+    ) {
+
+      correctScore =
+        0;
+    }
+
+
+    if (
+      random() <
+      0.06
+    ) {
+
+      claimScore =
+        0;
+    }
+
+
+    const total =
+      claimScore +
+      checkScore +
+      testScore +
+      correctScore +
+      justifyScore;
+
+
+    const correctChecks =
+      mission.check &&
+      Array.isArray(
+        mission.check.correctAnswers
+      )
+        ? mission.check.correctAnswers
+        : [];
+
+
+    return {
+      action:
+        "MISSION_ATTEMPT",
+
+      participantCode,
+
+      className:
+        CLASS_NAME,
+
+      missionId:
+        Number(
+          mission.id
+        ),
+
+      level:
+        Number(
+          mission.level
+        ),
+
+      trapType:
+        mission.trapType ||
+        "",
+
+      answers: {
+        claim:
+          mission.claim?.bestAnswer ||
+          "",
+
+        check:
+          correctChecks,
+
+        test:
+          mission.test?.correctAnswer ||
+          "",
+
+        correct:
+          mission.correct?.correctAnswer ||
+          "",
+
+        justify:
+          "Saya memeriksa klaim AI dengan membandingkan jawaban, melakukan pengujian, dan menggunakan bukti sebelum menentukan kesimpulan."
+      },
+
+      gamificationScores: {
+        claim:
+          claimScore,
+
+        check:
+          checkScore,
+
+        test:
+          testScore,
+
+        correct:
+          correctScore,
+
+        justify:
+          justifyScore
+      },
+
+      gamificationTotal:
+        total
+    };
   }
 
 
   /* =======================================================
-     SEED PARTICIPANT
+     BUILD ALL REQUESTS FOR ONE PARTICIPANT
      ======================================================= */
 
-  async function seedParticipant(
+  function buildParticipantRequests(
     profile,
-    index
+    participantIndex
   ) {
 
     const code =
       profile.code;
 
-    const className =
-      "VII-SIM";
+
+    const now =
+      new Date()
+        .toISOString();
 
 
-    log(
-      `Memproses ${code} (${index + 1}/30)...`
-    );
+    const pre =
+      makeAssessment(
+        pretestQuestions,
+        profile.preTarget,
+        10000 +
+        participantIndex * 31
+      );
 
 
-    await sendDirect(
-      "REGISTER_PARTICIPANT",
-      {
-        participantCode:
-          code,
-        className
+    const post =
+      makeAssessment(
+        posttestQuestions,
+        profile.postTarget,
+        20000 +
+        participantIndex * 47
+      );
+
+
+    const cal =
+      makeAssessment(
+        calQuestions,
+        profile.calTarget,
+        30000 +
+        participantIndex * 59
+      );
+
+
+    const nGain =
+      calculateNGain(
+        pre.score100,
+        post.score100
+      );
+
+
+    const gain =
+      Number(
+        (
+          post.score100 -
+          pre.score100
+        ).toFixed(2)
+      );
+
+
+    const response =
+      buildResponseData(
+        profile.responseAverage,
+        40000 +
+        participantIndex * 71
+      );
+
+
+    const requests = [];
+
+
+    requests.push({
+      action:
+        "REGISTER_PARTICIPANT",
+
+      participantCode:
+        code,
+
+      className:
+        CLASS_NAME
+    });
+
+
+    requests.push({
+      action:
+        "PRETEST_CT",
+
+      participantCode:
+        code,
+
+      className:
+        CLASS_NAME,
+
+      rawScore:
+        pre.rawScore,
+
+      maxScore:
+        pre.maxScore,
+
+      score100:
+        pre.score100,
+
+      indicators:
+        pre.indicators,
+
+      responses:
+        pre.responses,
+
+      itemResults:
+        pre.itemResults,
+
+      startedAt:
+        now,
+
+      submittedAt:
+        now
+    });
+
+
+    missions.forEach(
+      (
+        mission,
+        missionIndex
+      ) => {
+
+        requests.push(
+          buildMissionPayload(
+            code,
+            mission,
+            profile.missionTarget,
+            50000 +
+            participantIndex * 101 +
+            missionIndex * 17
+          )
+        );
       }
     );
 
 
-    await wait(120);
+    requests.push({
+      action:
+        "POSTTEST_CT",
 
-
-    const preResponses =
-      createAssessmentResponses(
-        pretestQuestions,
-        profile.pre
-      );
-
-
-    const preRecord =
-      buildAssessmentRecord(
+      participantCode:
         code,
-        className,
-        "PRETEST_CT",
-        pretestQuestions,
-        preResponses
-      );
 
+      className:
+        CLASS_NAME,
 
-    await sendDirect(
-      "PRETEST_CT",
-      {
-        participantCode:
-          code,
-        className,
+      rawScore:
+        post.rawScore,
 
-        rawScore:
-          preRecord.rawScore,
+      maxScore:
+        post.maxScore,
 
-        maxScore:
-          preRecord.maxScore,
+      score100:
+        post.score100,
 
-        score100:
-          preRecord.score100,
+      indicators:
+        post.indicators,
+
+      responses:
+        post.responses,
+
+      itemResults:
+        post.itemResults,
+
+      comparison: {
+        pretestScore100:
+          pre.score100,
+
+        posttestScore100:
+          post.score100,
+
+        gainScore:
+          gain,
+
+        normalizedGain:
+          nGain,
 
         indicators:
-          preRecord.indicators,
+          {}
+      },
 
-        responses:
-          preRecord.responses,
+      startedAt:
+        now,
 
-        itemResults:
-          preRecord.itemResults,
+      submittedAt:
+        now
+    });
 
-        startedAt:
-          preRecord.startedAt,
 
-        submittedAt:
-          preRecord.submittedAt
+    requests.push({
+      action:
+        "CAL_ASSESSMENT",
+
+      participantCode:
+        code,
+
+      className:
+        CLASS_NAME,
+
+      rawScore:
+        cal.rawScore,
+
+      maxScore:
+        cal.maxScore,
+
+      score100:
+        cal.score100,
+
+      indicators:
+        cal.indicators,
+
+      responses:
+        cal.responses,
+
+      itemResults:
+        cal.itemResults,
+
+      startedAt:
+        now,
+
+      submittedAt:
+        now
+    });
+
+
+    requests.push({
+      action:
+        "STUDENT_RESPONSE",
+
+      participantCode:
+        code,
+
+      className:
+        CLASS_NAME,
+
+      responses:
+        response.responses,
+
+      reflection:
+        response.reflection,
+
+      summary:
+        response.summary,
+
+      startedAt:
+        now,
+
+      submittedAt:
+        now
+    });
+
+
+    requests.push({
+      action:
+        "PROGRAM_COMPLETE",
+
+      participantCode:
+        code,
+
+      className:
+        CLASS_NAME
+    });
+
+
+    return {
+      requests,
+
+      preview: {
+        code,
+
+        pretest:
+          pre.score100,
+
+        posttest:
+          post.score100,
+
+        gain,
+
+        nGain,
+
+        cal:
+          cal.score100,
+
+        response:
+          response.summary.average,
+
+        preIndicators:
+          pre.indicators,
+
+        postIndicators:
+          post.indicators,
+
+        calIndicators:
+          cal.indicators
+      }
+    };
+  }
+
+
+  /* =======================================================
+     RAW SEND
+     ======================================================= */
+
+  async function rawSend(
+    payload
+  ) {
+
+    const body = {
+      ...payload,
+
+      clientTimestamp:
+        new Date()
+          .toISOString(),
+
+      clientVersion:
+        "AI-TRAP-LAB-SIM-V2"
+    };
+
+
+    await fetch(
+      AITRAP_API_URL,
+      {
+        method:
+          "POST",
+
+        mode:
+          "no-cors",
+
+        cache:
+          "no-store",
+
+        headers: {
+          "Content-Type":
+            "text/plain;charset=utf-8"
+        },
+
+        body:
+          JSON.stringify(
+            body
+          )
       }
     );
 
 
-    await wait(120);
+    return true;
+  }
 
 
-    for (
-      let m = 0;
-      m < missions.length;
-      m++
-    ) {
+  /* =======================================================
+     CONCURRENT QUEUE
+     ======================================================= */
 
-      const mission =
-        missions[m];
+  async function runQueue(
+    tasks,
+    concurrency
+  ) {
 
-      const quality =
-        getMissionQuality(
-          profile.mission,
-          m
-        );
+    let cursor =
+      0;
 
-
-      const missionAnswers =
-        getMissionAnswers(
-          mission,
-          quality
-        );
+    let completed =
+      0;
 
 
-      const missionScores =
-        calculateMissionObjectScores(
-          mission,
-          missionAnswers
-        );
+    async function worker() {
 
+      while (true) {
 
-      const total =
-        missionScores.claim +
-        missionScores.check +
-        missionScores.test +
-        missionScores.correct +
-        missionScores.justify;
+        const index =
+          cursor++;
 
-
-      await sendDirect(
-        "MISSION_ATTEMPT",
-        {
-          participantCode:
-            code,
-
-          className,
-
-          missionId:
-            Number(
-              mission.id
-            ),
-
-          level:
-            Number(
-              mission.level
-            ),
-
-          trapType:
-            mission.trapType ||
-            "",
-
-          answers:
-            missionAnswers,
-
-          gamificationScores:
-            missionScores,
-
-          gamificationTotal:
-            total
+        if (
+          index >=
+          tasks.length
+        ) {
+          return;
         }
-      );
 
 
-      await wait(70);
+        await rawSend(
+          tasks[index]
+        );
+
+
+        completed++;
+
+
+        if (
+          progressText
+        ) {
+
+          progressText.textContent =
+            `Request ${completed} / ${tasks.length}`;
+        }
+
+
+        /*
+          Jeda sangat kecil agar Apps Script
+          tidak dihantam terlalu keras.
+        */
+
+        await new Promise(
+          resolve =>
+            setTimeout(
+              resolve,
+              20
+            )
+        );
+      }
     }
 
 
-    const postResponses =
-      createAssessmentResponses(
-        posttestQuestions,
-        profile.post
+    const workers = [];
+
+    for (
+      let i = 0;
+      i < concurrency;
+      i++
+    ) {
+
+      workers.push(
+        worker()
       );
+    }
 
 
-    const postRecord =
-      buildAssessmentRecord(
-        code,
-        className,
-        "POSTTEST_CT",
-        posttestQuestions,
-        postResponses
-      );
-
-
-    await sendDirect(
-      "POSTTEST_CT",
-      {
-        participantCode:
-          code,
-
-        className,
-
-        rawScore:
-          postRecord.rawScore,
-
-        maxScore:
-          postRecord.maxScore,
-
-        score100:
-          postRecord.score100,
-
-        indicators:
-          postRecord.indicators,
-
-        responses:
-          postRecord.responses,
-
-        itemResults:
-          postRecord.itemResults,
-
-        comparison: {
-          pretestScore100:
-            preRecord.score100,
-
-          posttestScore100:
-            postRecord.score100,
-
-          gainScore:
-            postRecord.score100 -
-            preRecord.score100
-        },
-
-        startedAt:
-          postRecord.startedAt,
-
-        submittedAt:
-          postRecord.submittedAt
-      }
-    );
-
-
-    await wait(120);
-
-
-    const calResponses =
-      createAssessmentResponses(
-        calQuestions,
-        profile.cal
-      );
-
-
-    const calRecord =
-      buildAssessmentRecord(
-        code,
-        className,
-        "CAL_ASSESSMENT",
-        calQuestions,
-        calResponses
-      );
-
-
-    await sendDirect(
-      "CAL_ASSESSMENT",
-      {
-        participantCode:
-          code,
-
-        className,
-
-        rawScore:
-          calRecord.rawScore,
-
-        maxScore:
-          calRecord.maxScore,
-
-        score100:
-          calRecord.score100,
-
-        indicators:
-          calRecord.indicators,
-
-        responses:
-          calRecord.responses,
-
-        itemResults:
-          calRecord.itemResults,
-
-        startedAt:
-          calRecord.startedAt,
-
-        submittedAt:
-          calRecord.submittedAt
-      }
-    );
-
-
-    await wait(120);
-
-
-    const responseRecord =
-      buildStudentResponseRecord(
-        code,
-        className,
-        profile.response
-      );
-
-
-    await sendDirect(
-      "STUDENT_RESPONSE",
-      {
-        participantCode:
-          code,
-
-        className,
-
-        responses:
-          responseRecord.responses,
-
-        reflection:
-          responseRecord.reflection,
-
-        summary:
-          responseRecord.summary,
-
-        startedAt:
-          responseRecord.startedAt,
-
-        submittedAt:
-          responseRecord.submittedAt
-      }
-    );
-
-
-    await wait(120);
-
-
-    await sendDirect(
-      "PROGRAM_COMPLETE",
-      {
-        participantCode:
-          code,
-        className
-      }
-    );
-
-
-    await wait(150);
-
-
-    log(
-      `${code} selesai.`
+    await Promise.all(
+      workers
     );
   }
 
 
   /* =======================================================
-     PANEL UI
+     PREVIEW
      ======================================================= */
 
-  let statusBox = null;
-  let progressText = null;
+  function preview() {
+
+    const previewData =
+      PROFILES.map(
+        (
+          profile,
+          index
+        ) => {
+
+          const built =
+            buildParticipantRequests(
+              profile,
+              index + 1
+            );
+
+          return (
+            built.preview
+          );
+        }
+      );
 
 
-  function log(message) {
+    console.table(
+      previewData.map(
+        item => ({
+          Peserta:
+            item.code,
+
+          Pretest:
+            item.pretest,
+
+          Posttest:
+            item.posttest,
+
+          Gain:
+            item.gain,
+
+          NGain:
+            item.nGain,
+
+          CAL:
+            item.cal,
+
+          Respons:
+            item.response
+        })
+      )
+    );
+
 
     console.log(
-      "[Simulation Seeder]",
+      "DETAIL PREVIEW:",
+      previewData
+    );
+
+
+    log(
+      "Preview selesai. Cek Console browser."
+    );
+  }
+
+
+  /* =======================================================
+     GENERATE
+     ======================================================= */
+
+  async function generate() {
+
+    if (running) {
+      return;
+    }
+
+
+    const confirmed =
+      confirm(
+        "Generate ulang 30 data simulasi AI TRAP LAB V2?"
+      );
+
+
+    if (!confirmed) {
+      return;
+    }
+
+
+    running =
+      true;
+
+
+    const button =
+      document.getElementById(
+        "simV2Generate"
+      );
+
+
+    if (button) {
+
+      button.disabled =
+        true;
+
+      button.textContent =
+        "PROCESSING...";
+    }
+
+
+    try {
+
+      const allRequests =
+        [];
+
+
+      PROFILES.forEach(
+        (
+          profile,
+          index
+        ) => {
+
+          const built =
+            buildParticipantRequests(
+              profile,
+              index + 1
+            );
+
+
+          allRequests.push(
+            ...built.requests
+          );
+        }
+      );
+
+
+      log(
+        `Total request: ${allRequests.length}`
+      );
+
+
+      log(
+        `Menjalankan ${CONCURRENT_REQUESTS} request paralel...`
+      );
+
+
+      await runQueue(
+        allRequests,
+        CONCURRENT_REQUESTS
+      );
+
+
+      log(
+        "Semua request selesai dikirim."
+      );
+
+
+      if (
+        progressText
+      ) {
+
+        progressText.textContent =
+          "SELESAI";
+      }
+
+
+      alert(
+        "Seeder V2 selesai mengirim 30 peserta. Tunggu sekitar 15–30 detik lalu Refresh Data di Teacher Dashboard."
+      );
+
+    }
+
+    catch (
+      error
+    ) {
+
+      console.error(
+        error
+      );
+
+
+      log(
+        "ERROR: " +
+        (
+          error.message ||
+          error
+        )
+      );
+
+
+      alert(
+        "Terjadi error. Periksa Console."
+      );
+
+    }
+
+    finally {
+
+      running =
+        false;
+
+
+      if (button) {
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          "GENERATE 30 DATA";
+      }
+    }
+  }
+
+
+  /* =======================================================
+     LOG
+     ======================================================= */
+
+  function log(
+    message
+  ) {
+
+    console.log(
+      "[SIM V2]",
       message
     );
+
 
     if (!statusBox) {
       return;
     }
+
 
     const row =
       document.createElement(
         "div"
       );
 
+
     row.textContent =
       message;
+
 
     statusBox.appendChild(
       row
     );
+
 
     statusBox.scrollTop =
       statusBox.scrollHeight;
   }
 
 
+  /* =======================================================
+     UI
+     ======================================================= */
+
   function buildPanel() {
 
-    const wrapper =
+    const old =
+      document.getElementById(
+        "aitrapSimulationSeeder"
+      );
+
+    if (old) {
+      old.remove();
+    }
+
+
+    const panel =
       document.createElement(
         "div"
       );
 
-    wrapper.id =
+
+    panel.id =
       "aitrapSimulationSeeder";
 
 
-    wrapper.style.cssText = `
+    panel.style.cssText = `
       position:fixed;
       right:18px;
       bottom:18px;
-      width:340px;
-      max-width:calc(100vw - 36px);
       z-index:999999;
-      background:#ffffff;
-      color:#1f2937;
-      border:1px solid #d1d5db;
-      border-radius:14px;
-      box-shadow:0 12px 40px rgba(0,0,0,.20);
+      width:360px;
+      max-width:calc(100vw - 36px);
       padding:16px;
+      border-radius:14px;
+      background:#ffffff;
+      color:#172033;
+      box-shadow:0 12px 38px rgba(0,0,0,.25);
       font-family:Arial,sans-serif;
+      border:1px solid #d9e1ea;
     `;
 
 
-    wrapper.innerHTML = `
+    panel.innerHTML = `
 
       <div
         style="
-          font-weight:800;
           font-size:15px;
+          font-weight:800;
           margin-bottom:4px;
         "
       >
-        AI TRAP LAB — Simulation Seeder
+        AI TRAP LAB — FAST SEEDER V2
       </div>
 
       <div
         style="
-          font-size:12px;
-          color:#6b7280;
+          font-size:11px;
+          line-height:1.5;
+          color:#64748b;
           margin-bottom:12px;
-          line-height:1.45;
         "
       >
-        30 data simulasi untuk pengujian sistem.
+        30 peserta • indikator seimbang • N-Gain • parallel request
       </div>
 
       <div
-        id="simSeederProgress"
+        id="simV2Progress"
         style="
           font-size:12px;
           font-weight:700;
-          margin-bottom:8px;
+          margin-bottom:10px;
         "
       >
-        Status: siap
+        READY
       </div>
 
       <div
@@ -1180,45 +1806,45 @@
       >
 
         <button
-          id="simPreviewBtn"
+          id="simV2Preview"
           style="
             flex:1;
-            border:1px solid #d1d5db;
-            background:#f9fafb;
-            padding:9px 10px;
-            border-radius:9px;
-            cursor:pointer;
+            padding:10px;
+            border-radius:8px;
+            border:1px solid #ccd5df;
+            background:#f8fafc;
             font-weight:700;
+            cursor:pointer;
           "
         >
-          Preview
+          PREVIEW
         </button>
 
         <button
-          id="simSeedBtn"
+          id="simV2Generate"
           style="
             flex:1;
-            border:none;
-            background:#111827;
+            padding:10px;
+            border-radius:8px;
+            border:0;
+            background:#172033;
             color:#fff;
-            padding:9px 10px;
-            border-radius:9px;
-            cursor:pointer;
             font-weight:700;
+            cursor:pointer;
           "
         >
-          Seed 30 Data
+          GENERATE 30 DATA
         </button>
 
       </div>
 
       <div
-        id="simSeederStatus"
+        id="simV2Status"
         style="
-          height:120px;
+          height:110px;
           overflow:auto;
-          background:#f3f4f6;
           border-radius:8px;
+          background:#f1f5f9;
           padding:8px;
           font-size:11px;
           line-height:1.5;
@@ -1228,178 +1854,45 @@
 
 
     document.body.appendChild(
-      wrapper
+      panel
     );
 
 
     statusBox =
       document.getElementById(
-        "simSeederStatus"
+        "simV2Status"
       );
 
 
     progressText =
       document.getElementById(
-        "simSeederProgress"
+        "simV2Progress"
       );
 
 
     document
       .getElementById(
-        "simPreviewBtn"
+        "simV2Preview"
       )
       .addEventListener(
         "click",
-        previewData
+        preview
       );
 
 
     document
       .getElementById(
-        "simSeedBtn"
+        "simV2Generate"
       )
       .addEventListener(
         "click",
-        startSeed
+        generate
       );
-  }
 
-
-  function previewData() {
-
-    console.table(
-      simulationData
-    );
 
     log(
-      "Preview ditampilkan di Console browser."
+      "FAST SEEDER V2 siap."
     );
-
-    alert(
-      "Preview dataset sudah ditampilkan pada Console browser (F12 → Console)."
-    );
-  }
-
-
-  async function startSeed() {
-
-    const alreadySeeded =
-      localStorage.getItem(
-        SEED_FLAG
-      ) === "1";
-
-
-    if (alreadySeeded) {
-
-      const proceed =
-        confirm(
-          "Seeder pernah dijalankan dari browser ini. Menjalankan kembali dapat membuat data duplikat. Tetap lanjut?"
-        );
-
-      if (!proceed) {
-        return;
-      }
-    }
-
-
-    const confirmSeed =
-      confirm(
-        "Masukkan 30 peserta simulasi beserta seluruh Pretest, 15 Mission, Posttest, CAL, Response, dan Program Complete ke database?"
-      );
-
-
-    if (!confirmSeed) {
-      return;
-    }
-
-
-    const seedButton =
-      document.getElementById(
-        "simSeedBtn"
-      );
-
-
-    seedButton.disabled =
-      true;
-
-
-    seedButton.textContent =
-      "Processing...";
-
-
-    try {
-
-      for (
-        let i = 0;
-        i < simulationData.length;
-        i++
-      ) {
-
-        if (progressText) {
-
-          progressText.textContent =
-            `Status: ${i + 1} / ${simulationData.length}`;
-        }
-
-
-        await seedParticipant(
-          simulationData[i],
-          i
-        );
-      }
-
-
-      localStorage.setItem(
-        SEED_FLAG,
-        "1"
-      );
-
-
-      if (progressText) {
-
-        progressText.textContent =
-          "Status: selesai 30 / 30";
-      }
-
-
-      log(
-        "SEMUA DATA SIMULASI SELESAI DIKIRIM."
-      );
-
-
-      alert(
-        "30 peserta simulasi selesai diproses. Silakan cek Google Sheets / Teacher Dashboard."
-      );
-
-    }
-
-    catch (error) {
-
-      console.error(
-        error
-      );
-
-
-      log(
-        "ERROR: " +
-        error.message
-      );
-
-
-      alert(
-        "Seeder berhenti karena error. Periksa Console browser."
-      );
-    }
-
-    finally {
-
-      seedButton.disabled =
-        false;
-
-
-      seedButton.textContent =
-        "Seed 30 Data";
-    }
   }
 
 
@@ -1415,12 +1908,12 @@
         function () {
 
           if (
-            typeof aitrapSend !==
-            "function"
+            typeof AITRAP_API_URL ===
+            "undefined"
           ) {
 
             console.error(
-              "Simulation Seeder: api.js belum siap."
+              "AITRAP_API_URL tidak ditemukan."
             );
 
             return;
@@ -1428,18 +1921,35 @@
 
 
           if (
-            typeof missions ===
-              "undefined" ||
-            typeof pretestQuestions ===
-              "undefined" ||
-            typeof posttestQuestions ===
-              "undefined" ||
-            typeof calQuestions ===
-              "undefined"
+            typeof calculateAssessmentResult !==
+            "function"
           ) {
 
             console.error(
-              "Simulation Seeder: data aplikasi belum tersedia."
+              "calculateAssessmentResult() tidak ditemukan."
+            );
+
+            return;
+          }
+
+
+          if (
+            !Array.isArray(
+              missions
+            ) ||
+            !Array.isArray(
+              pretestQuestions
+            ) ||
+            !Array.isArray(
+              posttestQuestions
+            ) ||
+            !Array.isArray(
+              calQuestions
+            )
+          ) {
+
+            console.error(
+              "Dataset aplikasi belum siap."
             );
 
             return;
@@ -1449,7 +1959,7 @@
           buildPanel();
 
         },
-        500
+        700
       );
 
     }
