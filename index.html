@@ -1,0 +1,2734 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#07111f"
+  >
+
+  <title>AI TRAP LAB</title>
+
+  <link
+    rel="stylesheet"
+    href="css/style.css"
+  >
+</head>
+
+
+<body>
+
+  <!-- =====================================================
+       BACKGROUND
+  ====================================================== -->
+
+  <div class="background-grid"></div>
+  <div class="background-glow glow-one"></div>
+  <div class="background-glow glow-two"></div>
+
+
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
+
+  <header class="app-header">
+
+    <div class="brand">
+
+      <div class="brand-icon">
+        AI
+      </div>
+
+      <div class="brand-text">
+        AI TRAP LAB
+      </div>
+
+    </div>
+
+
+    <div class="student-mini">
+
+      <strong id="topStudentName">
+        INVESTIGATOR
+      </strong>
+
+      <span id="topStudentClass"></span>
+
+    </div>
+
+  </header>
+
+
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
+
+  <main class="app-main">
+
+
+    <!-- ===================================================
+         SCREEN 01 — LANDING
+    ==================================================== -->
+
+    <section
+      id="screenLanding"
+      class="screen active"
+    >
+
+      <div class="landing-layout">
+
+        <div class="landing-content">
+
+          <div class="eyebrow">
+            CRITICAL AI VERIFICATION LAB
+          </div>
+
+
+          <h1 class="hero-title">
+
+            Jangan langsung
+            <span>percaya AI.</span>
+
+            <br>
+
+            Buktikan.
+
+          </h1>
+
+
+          <p class="hero-description">
+
+            Masuk ke laboratorium investigasi digital.
+            Periksa klaim AI, temukan jebakan,
+            uji bukti, perbaiki kesimpulan,
+            dan pertahankan keputusanmu.
+
+          </p>
+
+
+          <div class="cycle-preview">
+
+            <span>CLAIM</span>
+            <b>→</b>
+
+            <span>CHECK</span>
+            <b>→</b>
+
+            <span>TEST</span>
+            <b>→</b>
+
+            <span>CORRECT</span>
+            <b>→</b>
+
+            <span>JUSTIFY</span>
+
+          </div>
+
+
+          <div class="landing-actions">
+
+            <button
+              class="btn btn-primary btn-large"
+              onclick="goToIdentity()"
+            >
+              Mulai Investigasi
+              <span>→</span>
+            </button>
+
+
+            <button
+              class="btn btn-secondary btn-large"
+              onclick="showAbout()"
+            >
+              Tentang AI TRAP LAB
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="landing-panel">
+
+          <div class="lab-window">
+
+            <div class="lab-window-header">
+
+              <div class="window-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+
+              <span>
+                AI_TRAP_LAB.exe
+              </span>
+
+            </div>
+
+
+            <div class="lab-window-body">
+
+              <div class="scanner-ring">
+
+                <div class="scanner-core">
+                  AI
+                </div>
+
+              </div>
+
+
+              <div class="system-status">
+
+                <div>
+                  <span class="status-dot"></span>
+                  Verification Engine
+                </div>
+
+                <strong>
+                  ONLINE
+                </strong>
+
+              </div>
+
+
+              <div class="terminal-lines">
+
+                <p>
+                  &gt; Computational Thinking protocol ready.
+                </p>
+
+                <p>
+                  &gt; CCTCJ investigation cycle ready.
+                </p>
+
+                <p>
+                  &gt; Critical AI Literacy protocol ready.
+                </p>
+
+                <p>
+                  &gt; Student response protocol ready.
+                </p>
+
+                <p class="terminal-active">
+                  &gt; Investigator required_
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCREEN 02 — IDENTITY
+    ==================================================== -->
+
+    <section
+      id="screenIdentity"
+      class="screen"
+    >
+
+      <div class="center-screen">
+
+        <div class="identity-card">
+
+          <div class="section-tag">
+            INVESTIGATOR REGISTRATION
+          </div>
+
+
+          <h2>
+            Identitas Investigator
+          </h2>
+
+
+          <p class="section-description">
+
+            Gunakan kode peserta yang diberikan guru.
+            Nama lengkap tidak diperlukan dalam data
+            investigasi utama.
+
+          </p>
+
+
+          <div class="form-group">
+
+            <label for="studentCode">
+              Kode Peserta
+            </label>
+
+            <input
+              id="studentCode"
+              type="text"
+              placeholder="Contoh: VII1-01"
+              autocomplete="off"
+              maxlength="20"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="studentClass">
+              Kelas
+            </label>
+
+            <select id="studentClass">
+
+              <option value="">
+                Pilih kelas
+              </option>
+
+              <option value="VII-1">VII-1</option>
+              <option value="VII-2">VII-2</option>
+              <option value="VII-3">VII-3</option>
+              <option value="VII-4">VII-4</option>
+              <option value="VII-5">VII-5</option>
+              <option value="VII-6">VII-6</option>
+
+            </select>
+
+          </div>
+
+
+          <div class="identity-note">
+
+            <div class="note-icon">
+              !
+            </div>
+
+            <p>
+              Pastikan kode peserta dan kelas sudah benar
+              sebelum melanjutkan.
+            </p>
+
+          </div>
+
+
+          <div class="form-actions">
+
+            <button
+              class="btn btn-secondary"
+              onclick="showScreen('screenLanding')"
+            >
+              ← Kembali
+            </button>
+
+
+            <button
+              class="btn btn-primary"
+              onclick="submitIdentity()"
+            >
+              Lanjut
+              <span>→</span>
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCREEN 03 — PRETEST INTRO
+    ==================================================== -->
+
+    <section
+      id="screenPretestIntro"
+      class="screen"
+    >
+
+      <div class="assessment-intro-wrapper">
+
+        <div class="assessment-intro-card">
+
+          <div class="assessment-icon">
+            CT
+          </div>
+
+          <div class="section-tag">
+            INITIAL ASSESSMENT
+          </div>
+
+          <h2>
+            Pretest Computational Thinking
+          </h2>
+
+          <p class="assessment-intro-text">
+            Selesaikan 10 soal untuk melihat kemampuan awal
+            dalam memecahkan persoalan.
+          </p>
+
+
+          <div class="assessment-info-grid">
+
+            <div class="assessment-info-item">
+              <span>SOAL</span>
+              <strong>10</strong>
+              <small>pertanyaan</small>
+            </div>
+
+            <div class="assessment-info-item">
+              <span>FORMAT</span>
+              <strong>2</strong>
+              <small>jawaban + alasan</small>
+            </div>
+
+            <div class="assessment-info-item">
+              <span>FOKUS</span>
+              <strong>5</strong>
+              <small>indikator CT</small>
+            </div>
+
+          </div>
+
+
+          <div class="assessment-rules">
+
+            <h3>Petunjuk</h3>
+
+            <div class="rule-item">
+              <span>01</span>
+              <p>Pilih jawaban yang paling tepat.</p>
+            </div>
+
+            <div class="rule-item">
+              <span>02</span>
+              <p>Pilih alasan yang mendukung jawabanmu.</p>
+            </div>
+
+            <div class="rule-item">
+              <span>03</span>
+              <p>Kerjakan berdasarkan pemikiranmu sendiri.</p>
+            </div>
+
+            <div class="rule-item">
+              <span>04</span>
+              <p>Nilai dan kunci tidak ditampilkan.</p>
+            </div>
+
+          </div>
+
+
+          <button
+            class="btn btn-primary btn-large assessment-start-btn"
+            onclick="startPretest()"
+          >
+            Mulai Pretest
+            <span>→</span>
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCREEN 04 — PRETEST
+    ==================================================== -->
+
+    <section
+      id="screenPretest"
+      class="screen"
+    >
+
+      <div class="assessment-page">
+
+        <div class="assessment-topbar">
+
+          <div>
+            <div class="section-tag">
+              PRETEST • COMPUTATIONAL THINKING
+            </div>
+
+            <h2>
+              Initial Assessment
+            </h2>
+          </div>
+
+
+          <div class="assessment-counter">
+
+            <span>SOAL</span>
+
+            <strong id="pretestCounter">
+              1 / 10
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="assessment-progress">
+
+          <div class="assessment-progress-info">
+
+            <span>
+              Progress Pretest
+            </span>
+
+            <strong id="pretestProgressText">
+              10%
+            </strong>
+
+          </div>
+
+
+          <div class="progress-track">
+
+            <div
+              id="pretestProgressFill"
+              class="progress-fill"
+            ></div>
+
+          </div>
+
+        </div>
+
+
+        <div class="assessment-question-card">
+
+          <div class="question-meta">
+
+            <span
+              id="pretestIndicator"
+              class="indicator-badge"
+            >
+              COMPUTATIONAL THINKING
+            </span>
+
+            <span id="pretestQuestionNumber">
+              QUESTION 01
+            </span>
+
+          </div>
+
+
+          <div
+            id="pretestStimulus"
+            class="question-stimulus"
+          ></div>
+
+
+          <h3 id="pretestQuestion"></h3>
+
+
+          <div class="tier-block">
+
+            <div class="tier-heading">
+
+              <span>A</span>
+
+              <div>
+                <strong>Pilih Jawaban</strong>
+                <small>Tentukan keputusan paling tepat.</small>
+              </div>
+
+            </div>
+
+            <div
+              id="pretestAnswerOptions"
+              class="choice-list"
+            ></div>
+
+          </div>
+
+
+          <div class="tier-block tier-reason">
+
+            <div class="tier-heading">
+
+              <span>B</span>
+
+              <div>
+                <strong>Pilih Alasan</strong>
+                <small>Pilih alasan yang paling mendukung.</small>
+              </div>
+
+            </div>
+
+            <div
+              id="pretestReasonOptions"
+              class="choice-list"
+            ></div>
+
+          </div>
+
+
+          <div class="assessment-navigation">
+
+            <button
+              id="pretestPreviousButton"
+              class="btn btn-secondary"
+              onclick="previousPretestQuestion()"
+            >
+              ← Sebelumnya
+            </button>
+
+            <button
+              id="pretestNextButton"
+              class="btn btn-primary"
+              onclick="nextPretestQuestion()"
+            >
+              Soal Berikutnya →
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCREEN 05 — PRETEST CONFIRM
+    ==================================================== -->
+
+    <section
+      id="screenPretestConfirm"
+      class="screen"
+    >
+
+      <div class="assessment-intro-wrapper">
+
+        <div class="assessment-intro-card">
+
+          <div class="assessment-icon assessment-icon-check">
+            ✓
+          </div>
+
+          <div class="section-tag">
+            PRETEST CHECKPOINT
+          </div>
+
+          <h2>
+            Periksa Sebelum Mengirim
+          </h2>
+
+
+          <div class="pretest-summary-box">
+
+            <div>
+              <span>Soal Terjawab Lengkap</span>
+              <strong id="pretestAnsweredSummary">
+                0 / 10
+              </strong>
+            </div>
+
+            <div>
+              <span>Status</span>
+              <strong id="pretestCompletionStatus">
+                BELUM LENGKAP
+              </strong>
+            </div>
+
+          </div>
+
+
+          <div
+            id="pretestMissingBox"
+            class="missing-question-box"
+          ></div>
+
+
+          <div class="assessment-confirm-actions">
+
+            <button
+              class="btn btn-secondary"
+              onclick="returnToPretest()"
+            >
+              ← Periksa Jawaban
+            </button>
+
+            <button
+              id="submitPretestButton"
+              class="btn btn-primary"
+              onclick="submitPretest()"
+            >
+              Kirim Pretest →
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCREEN 06 — PRETEST COMPLETE
+    ==================================================== -->
+
+    <section
+      id="screenPretestCompleted"
+      class="screen"
+    >
+
+      <div class="assessment-intro-wrapper">
+
+        <div class="assessment-intro-card">
+
+          <div class="assessment-icon assessment-icon-check">
+            ✓
+          </div>
+
+          <div class="section-tag">
+            INITIAL ASSESSMENT COMPLETE
+          </div>
+
+          <h2>
+            Pretest Selesai
+          </h2>
+
+          <p class="assessment-intro-text">
+            Jawabanmu sudah tersimpan.
+          </p>
+
+
+          <div class="pretest-complete-message">
+
+            <span>NEXT PROTOCOL</span>
+
+            <strong>
+              15 AI Verification Missions
+            </strong>
+
+            <p>
+              Periksa, uji, koreksi, dan gunakan bukti.
+            </p>
+
+          </div>
+
+
+          <button
+            class="btn btn-primary btn-large assessment-start-btn"
+            onclick="enterMissionMapAfterPretest()"
+          >
+            Masuk ke Mission Map →
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCREEN 07 — MISSION MAP
+    ==================================================== -->
+
+    <section
+      id="screenMap"
+      class="screen"
+    >
+
+      <div class="map-header">
+
+        <div>
+
+          <div class="section-tag">
+            MISSION CONTROL
+          </div>
+
+          <h2 class="map-title">
+            Mission Map
+          </h2>
+
+          <p class="map-subtitle">
+            Selesaikan investigasi satu per satu.
+          </p>
+
+        </div>
+
+
+        <div class="progress-box">
+
+          <div class="progress-info">
+
+            <span>
+              Progress Investigasi
+            </span>
+
+            <strong id="missionProgress">
+              0 / 15
+            </strong>
+
+          </div>
+
+
+          <div class="progress-track">
+
+            <div
+              id="missionProgressFill"
+              class="progress-fill"
+            ></div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="missionMap"
+        class="mission-map"
+      ></div>
+
+
+      <div
+        id="posttestUnlockPanel"
+        class="posttest-unlock-panel hidden"
+      >
+
+        <div class="posttest-unlock-icon">
+          CT
+        </div>
+
+
+        <div class="posttest-unlock-content">
+
+          <span>
+            FINAL ASSESSMENT UNLOCKED
+          </span>
+
+          <h3>
+            Posttest Computational Thinking
+          </h3>
+
+          <p>
+            Seluruh 15 mission telah selesai.
+          </p>
+
+        </div>
+
+
+        <button
+          class="btn btn-primary"
+          onclick="openPosttestIntro()"
+        >
+          Lanjut ke Posttest →
+        </button>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCREEN 08 — ACTIVE MISSION
+    ==================================================== -->
+
+    <section
+      id="screenMission"
+      class="screen"
+    >
+
+      <div class="mission-topbar">
+
+        <button
+          class="back-link"
+          onclick="backToMap()"
+        >
+          ← Mission Map
+        </button>
+
+
+        <div class="mission-topbar-info">
+
+          <span id="missionLevel">
+            LEVEL
+          </span>
+
+          <strong id="missionNumber">
+            MISSION
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div class="mission-layout">
+
+        <aside class="mission-context">
+
+          <div class="mission-context-head">
+
+            <span
+              id="missionTrapType"
+              class="trap-badge"
+            >
+              TRAP TYPE
+            </span>
+
+            <h2 id="missionTitle">
+              Mission Title
+            </h2>
+
+          </div>
+
+
+          <div class="context-section">
+
+            <span class="context-label">
+              SITUASI
+            </span>
+
+            <p id="missionStimulus"></p>
+
+          </div>
+
+
+          <div class="ai-claim-card">
+
+            <div class="ai-claim-header">
+
+              <div class="ai-avatar">
+                AI
+              </div>
+
+              <div>
+                <strong>AI RESPONSE</strong>
+                <span>Klaim yang harus diverifikasi</span>
+              </div>
+
+            </div>
+
+
+            <blockquote id="missionAIClaim"></blockquote>
+
+
+            <div
+              id="missionConfidence"
+              class="confidence-label"
+            >
+              AI Confidence • Simulasi
+            </div>
+
+          </div>
+
+
+          <div class="verification-warning">
+
+            <strong>
+              Verification Rule
+            </strong>
+
+            <p>
+              Gunakan bukti dan penalaran,
+              bukan sekadar keyakinan.
+            </p>
+
+          </div>
+
+        </aside>
+
+
+        <div class="mission-workspace">
+
+          <div class="step-progress">
+
+            <div class="step-indicator active">
+              <span>1</span>
+              <div>
+                <strong>CLAIM</strong>
+                <small>Posisi awal</small>
+              </div>
+            </div>
+
+            <div class="step-line"></div>
+
+            <div class="step-indicator">
+              <span>2</span>
+              <div>
+                <strong>CHECK</strong>
+                <small>Periksa</small>
+              </div>
+            </div>
+
+            <div class="step-line"></div>
+
+            <div class="step-indicator">
+              <span>3</span>
+              <div>
+                <strong>TEST</strong>
+                <small>Uji</small>
+              </div>
+            </div>
+
+            <div class="step-line"></div>
+
+            <div class="step-indicator">
+              <span>4</span>
+              <div>
+                <strong>CORRECT</strong>
+                <small>Perbaiki</small>
+              </div>
+            </div>
+
+            <div class="step-line"></div>
+
+            <div class="step-indicator">
+              <span>5</span>
+              <div>
+                <strong>JUSTIFY</strong>
+                <small>Jelaskan</small>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div
+            id="stepContent"
+            class="step-content"
+          ></div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCREEN 09 — MISSION RESULT
+    ==================================================== -->
+
+    <section
+      id="screenResult"
+      class="screen"
+    >
+
+      <div class="result-wrapper">
+
+        <div class="result-card">
+
+          <div class="result-icon">
+            ✓
+          </div>
+
+          <div
+            id="resultMission"
+            class="section-tag"
+          >
+            MISSION
+          </div>
+
+          <h2>
+            Investigasi Selesai
+          </h2>
+
+          <div
+            id="resultStatus"
+            class="result-status"
+          ></div>
+
+
+          <div class="result-score-box">
+
+            <span>
+              Investigation Score
+            </span>
+
+            <strong id="resultScore">
+              0
+            </strong>
+
+            <small>/100</small>
+
+          </div>
+
+
+          <div class="score-breakdown">
+
+            <div>
+              <span>CLAIM</span>
+              <strong id="scoreClaim">0</strong>
+              <small>/10</small>
+            </div>
+
+            <div>
+              <span>CHECK</span>
+              <strong id="scoreCheck">0</strong>
+              <small>/20</small>
+            </div>
+
+            <div>
+              <span>TEST</span>
+              <strong id="scoreTest">0</strong>
+              <small>/25</small>
+            </div>
+
+            <div>
+              <span>CORRECT</span>
+              <strong id="scoreCorrect">0</strong>
+              <small>/20</small>
+            </div>
+
+            <div>
+              <span>JUSTIFY</span>
+              <strong id="scoreJustify">0</strong>
+              <small>/25</small>
+            </div>
+
+          </div>
+
+
+          <div class="result-explanation">
+
+            <span>
+              HASIL VERIFIKASI
+            </span>
+
+            <p id="resultExplanation"></p>
+
+          </div>
+
+
+          <div class="result-actions">
+
+            <button
+              class="btn btn-secondary"
+              onclick="restartMission()"
+            >
+              Ulangi Mission
+            </button>
+
+            <button
+              class="btn btn-primary"
+              onclick="finishMission()"
+            >
+              Kembali ke Mission Map →
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCREEN 10 — POSTTEST INTRO
+    ==================================================== -->
+
+    <section
+      id="screenPosttestIntro"
+      class="screen"
+    >
+
+      <div class="assessment-intro-wrapper">
+
+        <div class="assessment-intro-card posttest-card">
+
+          <div class="assessment-icon">
+            CT
+          </div>
+
+          <div class="section-tag">
+            FINAL ASSESSMENT
+          </div>
+
+          <h2>
+            Posttest Computational Thinking
+          </h2>
+
+          <p class="assessment-intro-text">
+            Selesaikan asesmen akhir setelah mengikuti
+            seluruh investigasi AI TRAP LAB.
+          </p>
+
+
+          <div class="assessment-info-grid">
+
+            <div class="assessment-info-item">
+              <span>SOAL</span>
+              <strong>10</strong>
+              <small>pertanyaan</small>
+            </div>
+
+            <div class="assessment-info-item">
+              <span>FORMAT</span>
+              <strong>2</strong>
+              <small>jawaban + alasan</small>
+            </div>
+
+            <div class="assessment-info-item">
+              <span>FOKUS</span>
+              <strong>5</strong>
+              <small>indikator CT</small>
+            </div>
+
+          </div>
+
+
+          <button
+            class="btn btn-primary btn-large assessment-start-btn"
+            onclick="startPosttest()"
+          >
+            Mulai Posttest →
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCREEN 11 — POSTTEST
+    ==================================================== -->
+
+    <section
+      id="screenPosttest"
+      class="screen"
+    >
+
+      <div class="assessment-page">
+
+        <div class="assessment-topbar">
+
+          <div>
+
+            <div class="section-tag">
+              POSTTEST • COMPUTATIONAL THINKING
+            </div>
+
+            <h2>
+              Final Assessment
+            </h2>
+
+          </div>
+
+
+          <div class="assessment-counter">
+
+            <span>SOAL</span>
+
+            <strong id="posttestCounter">
+              1 / 10
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="assessment-progress">
+
+          <div class="assessment-progress-info">
+
+            <span>Progress Posttest</span>
+
+            <strong id="posttestProgressText">
+              10%
+            </strong>
+
+          </div>
+
+
+          <div class="progress-track">
+
+            <div
+              id="posttestProgressFill"
+              class="progress-fill"
+            ></div>
+
+          </div>
+
+        </div>
+
+
+        <div class="assessment-question-card">
+
+          <div class="question-meta">
+
+            <span
+              id="posttestIndicator"
+              class="indicator-badge"
+            ></span>
+
+            <span id="posttestQuestionNumber">
+              QUESTION 01
+            </span>
+
+          </div>
+
+
+          <div
+            id="posttestStimulus"
+            class="question-stimulus"
+          ></div>
+
+
+          <h3 id="posttestQuestion"></h3>
+
+
+          <div class="tier-block">
+
+            <div class="tier-heading">
+              <span>A</span>
+              <div>
+                <strong>Pilih Jawaban</strong>
+                <small>Tentukan keputusan paling tepat.</small>
+              </div>
+            </div>
+
+            <div
+              id="posttestAnswerOptions"
+              class="choice-list"
+            ></div>
+
+          </div>
+
+
+          <div class="tier-block tier-reason">
+
+            <div class="tier-heading">
+              <span>B</span>
+              <div>
+                <strong>Pilih Alasan</strong>
+                <small>Pilih alasan paling tepat.</small>
+              </div>
+            </div>
+
+            <div
+              id="posttestReasonOptions"
+              class="choice-list"
+            ></div>
+
+          </div>
+
+
+          <div class="assessment-navigation">
+
+            <button
+              id="posttestPreviousButton"
+              class="btn btn-secondary"
+              onclick="previousPosttestQuestion()"
+            >
+              ← Sebelumnya
+            </button>
+
+            <button
+              id="posttestNextButton"
+              class="btn btn-primary"
+              onclick="nextPosttestQuestion()"
+            >
+              Soal Berikutnya →
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCREEN 12 — POSTTEST CONFIRM
+    ==================================================== -->
+
+    <section
+      id="screenPosttestConfirm"
+      class="screen"
+    >
+
+      <div class="assessment-intro-wrapper">
+
+        <div class="assessment-intro-card">
+
+          <div class="assessment-icon assessment-icon-check">
+            ✓
+          </div>
+
+          <div class="section-tag">
+            POSTTEST CHECKPOINT
+          </div>
+
+          <h2>
+            Periksa Jawaban Akhir
+          </h2>
+
+
+          <div class="pretest-summary-box">
+
+            <div>
+              <span>Soal Terjawab Lengkap</span>
+              <strong id="posttestAnsweredSummary">
+                0 / 10
+              </strong>
+            </div>
+
+            <div>
+              <span>Status</span>
+              <strong id="posttestCompletionStatus">
+                BELUM LENGKAP
+              </strong>
+            </div>
+
+          </div>
+
+
+          <div
+            id="posttestMissingBox"
+            class="missing-question-box"
+          ></div>
+
+
+          <div class="assessment-confirm-actions">
+
+            <button
+              class="btn btn-secondary"
+              onclick="returnToPosttest()"
+            >
+              ← Periksa Jawaban
+            </button>
+
+            <button
+              id="submitPosttestButton"
+              class="btn btn-primary"
+              onclick="submitPosttest()"
+            >
+              Kirim Posttest →
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCREEN 13 — POSTTEST COMPLETE
+    ==================================================== -->
+
+    <section
+      id="screenPosttestCompleted"
+      class="screen"
+    >
+
+      <div class="assessment-intro-wrapper">
+
+        <div class="assessment-intro-card">
+
+          <div class="assessment-icon assessment-icon-check">
+            ✓
+          </div>
+
+          <div class="section-tag">
+            FINAL ASSESSMENT COMPLETE
+          </div>
+
+          <h2>
+            Posttest Selesai
+          </h2>
+
+
+          <div class="pretest-complete-message">
+
+            <span>
+              NEXT PROTOCOL
+            </span>
+
+            <strong>
+              Critical AI Literacy
+            </strong>
+
+            <p>
+              Evaluasi kemampuanmu dalam
+              memeriksa keluaran AI.
+            </p>
+
+          </div>
+
+
+          <button
+            class="btn btn-primary btn-large assessment-start-btn"
+            onclick="continueAfterPosttest()"
+          >
+            Lanjut ke Critical AI Literacy →
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCREEN 14 — CAL INTRO
+    ==================================================== -->
+
+    <section
+      id="screenCALIntro"
+      class="screen"
+    >
+
+      <div class="assessment-intro-wrapper">
+
+        <div class="assessment-intro-card cal-intro-card">
+
+          <div class="assessment-icon cal-icon">
+            AI
+          </div>
+
+          <div class="section-tag">
+            CRITICAL AI LITERACY
+          </div>
+
+          <h2>
+            AI Verification Check
+          </h2>
+
+          <p class="assessment-intro-text">
+
+            Hadapi 8 situasi yang melibatkan
+            keluaran AI dan tentukan tindakan
+            berdasarkan bukti serta penalaran.
+
+          </p>
+
+
+          <div class="assessment-info-grid">
+
+            <div class="assessment-info-item">
+              <span>KASUS</span>
+              <strong>8</strong>
+              <small>skenario AI</small>
+            </div>
+
+            <div class="assessment-info-item">
+              <span>FORMAT</span>
+              <strong>2</strong>
+              <small>keputusan + alasan</small>
+            </div>
+
+            <div class="assessment-info-item">
+              <span>FOKUS</span>
+              <strong>5</strong>
+              <small>indikator AI literacy</small>
+            </div>
+
+          </div>
+
+
+          <div class="cal-dimension-grid">
+
+            <div class="cal-dimension-card">
+              <span>01</span>
+              <strong>Questioning</strong>
+              <p>Mempertanyakan klaim AI.</p>
+            </div>
+
+            <div class="cal-dimension-card">
+              <span>02</span>
+              <strong>Verification</strong>
+              <p>Memeriksa dengan bukti lain.</p>
+            </div>
+
+            <div class="cal-dimension-card">
+              <span>03</span>
+              <strong>Evidence Evaluation</strong>
+              <p>Menilai alasan dan bukti.</p>
+            </div>
+
+            <div class="cal-dimension-card">
+              <span>04</span>
+              <strong>Bias Awareness</strong>
+              <p>Menyadari keterbatasan AI.</p>
+            </div>
+
+            <div class="cal-dimension-card">
+              <span>05</span>
+              <strong>Responsible Judgment</strong>
+              <p>Menggunakan AI secara bertanggung jawab.</p>
+            </div>
+
+          </div>
+
+
+          <button
+            class="btn btn-primary btn-large assessment-start-btn"
+            onclick="startCAL()"
+          >
+            Mulai AI Verification Check →
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCREEN 15 — CAL
+    ==================================================== -->
+
+    <section
+      id="screenCAL"
+      class="screen"
+    >
+
+      <div class="assessment-page cal-page">
+
+        <div class="assessment-topbar">
+
+          <div>
+            <div class="section-tag">
+              CRITICAL AI LITERACY
+            </div>
+
+            <h2>
+              AI Verification Check
+            </h2>
+          </div>
+
+
+          <div class="assessment-counter">
+
+            <span>KASUS</span>
+
+            <strong id="calCounter">
+              1 / 8
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="assessment-progress">
+
+          <div class="assessment-progress-info">
+
+            <span>
+              Progress Verification Check
+            </span>
+
+            <strong id="calProgressText">
+              13%
+            </strong>
+
+          </div>
+
+
+          <div class="progress-track">
+
+            <div
+              id="calProgressFill"
+              class="progress-fill"
+            ></div>
+
+          </div>
+
+        </div>
+
+
+        <div class="assessment-question-card cal-question-card">
+
+          <div class="question-meta">
+
+            <span
+              id="calIndicator"
+              class="indicator-badge cal-indicator"
+            ></span>
+
+            <span id="calQuestionNumber">
+              CASE 01
+            </span>
+
+          </div>
+
+
+          <div class="cal-case-panel">
+
+            <div class="cal-case-head">
+
+              <div class="ai-avatar">
+                AI
+              </div>
+
+              <div>
+                <strong>AI OUTPUT</strong>
+                <small>Informasi yang perlu dievaluasi</small>
+              </div>
+
+            </div>
+
+
+            <div
+              id="calStimulus"
+              class="cal-stimulus"
+            ></div>
+
+          </div>
+
+
+          <h3 id="calQuestion"></h3>
+
+
+          <div class="tier-block">
+
+            <div class="tier-heading">
+              <span>A</span>
+              <div>
+                <strong>Keputusanmu</strong>
+                <small>Pilih tindakan yang paling tepat.</small>
+              </div>
+            </div>
+
+            <div
+              id="calAnswerOptions"
+              class="choice-list"
+            ></div>
+
+          </div>
+
+
+          <div class="tier-block tier-reason">
+
+            <div class="tier-heading">
+              <span>B</span>
+              <div>
+                <strong>Alasanmu</strong>
+                <small>Pilih alasan yang mendukung keputusan.</small>
+              </div>
+            </div>
+
+            <div
+              id="calReasonOptions"
+              class="choice-list"
+            ></div>
+
+          </div>
+
+
+          <div class="assessment-navigation">
+
+            <button
+              id="calPreviousButton"
+              class="btn btn-secondary"
+              onclick="previousCALQuestion()"
+            >
+              ← Sebelumnya
+            </button>
+
+            <button
+              id="calNextButton"
+              class="btn btn-primary"
+              onclick="nextCALQuestion()"
+            >
+              Kasus Berikutnya →
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCREEN 16 — CAL CONFIRM
+    ==================================================== -->
+
+    <section
+      id="screenCALConfirm"
+      class="screen"
+    >
+
+      <div class="assessment-intro-wrapper">
+
+        <div class="assessment-intro-card">
+
+          <div class="assessment-icon cal-icon">
+            AI
+          </div>
+
+          <div class="section-tag">
+            VERIFICATION CHECKPOINT
+          </div>
+
+          <h2>
+            Periksa Jawabanmu
+          </h2>
+
+
+          <div class="pretest-summary-box">
+
+            <div>
+              <span>Kasus Terjawab Lengkap</span>
+              <strong id="calAnsweredSummary">
+                0 / 8
+              </strong>
+            </div>
+
+            <div>
+              <span>Status</span>
+              <strong id="calCompletionStatus">
+                BELUM LENGKAP
+              </strong>
+            </div>
+
+          </div>
+
+
+          <div
+            id="calMissingBox"
+            class="missing-question-box"
+          ></div>
+
+
+          <div class="assessment-confirm-actions">
+
+            <button
+              class="btn btn-secondary"
+              onclick="returnToCAL()"
+            >
+              ← Periksa Jawaban
+            </button>
+
+            <button
+              id="submitCALButton"
+              class="btn btn-primary"
+              onclick="submitCAL()"
+            >
+              Kirim Verification Check →
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCREEN 17 — CAL COMPLETE
+    ==================================================== -->
+
+    <section
+      id="screenCALCompleted"
+      class="screen"
+    >
+
+      <div class="assessment-intro-wrapper">
+
+        <div class="assessment-intro-card">
+
+          <div class="assessment-icon assessment-icon-check">
+            ✓
+          </div>
+
+          <div class="section-tag">
+            AI LITERACY CHECK COMPLETE
+          </div>
+
+          <h2>
+            Critical AI Literacy Selesai
+          </h2>
+
+
+          <div class="pretest-complete-message">
+
+            <span>
+              FINAL STEP
+            </span>
+
+            <strong>
+              Respons Murid
+            </strong>
+
+            <p>
+              Berikan respons terhadap pengalaman
+              belajar menggunakan AI TRAP LAB.
+            </p>
+
+          </div>
+
+
+          <button
+            class="btn btn-primary btn-large assessment-start-btn"
+            onclick="continueAfterCAL()"
+          >
+            Lanjut ke Respons Murid →
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCREEN 18 — RESPONSE INTRO
+    ==================================================== -->
+
+    <section
+      id="screenResponseIntro"
+      class="screen"
+    >
+
+      <div class="assessment-intro-wrapper">
+
+        <div class="assessment-intro-card response-intro-card">
+
+          <div class="assessment-icon response-icon">
+            R
+          </div>
+
+
+          <div class="section-tag">
+            STUDENT EXPERIENCE
+          </div>
+
+
+          <h2>
+            Respons Murid
+          </h2>
+
+
+          <p class="assessment-intro-text">
+
+            Tahap terakhir. Berikan respons sesuai
+            pengalamanmu setelah menggunakan
+            AI TRAP LAB.
+
+          </p>
+
+
+          <div class="assessment-info-grid">
+
+            <div class="assessment-info-item">
+
+              <span>PERNYATAAN</span>
+
+              <strong>10</strong>
+
+              <small>
+                skala respons
+              </small>
+
+            </div>
+
+
+            <div class="assessment-info-item">
+
+              <span>SKALA</span>
+
+              <strong>1–4</strong>
+
+              <small>
+                STS sampai SS
+              </small>
+
+            </div>
+
+
+            <div class="assessment-info-item">
+
+              <span>REFLEKSI</span>
+
+              <strong>2</strong>
+
+              <small>
+                pertanyaan terbuka
+              </small>
+
+            </div>
+
+          </div>
+
+
+          <div class="response-scale-guide">
+
+            <div>
+              <strong>1</strong>
+              <span>Sangat Tidak Setuju</span>
+            </div>
+
+            <div>
+              <strong>2</strong>
+              <span>Tidak Setuju</span>
+            </div>
+
+            <div>
+              <strong>3</strong>
+              <span>Setuju</span>
+            </div>
+
+            <div>
+              <strong>4</strong>
+              <span>Sangat Setuju</span>
+            </div>
+
+          </div>
+
+
+          <div class="assessment-warning">
+
+            <strong>
+              Tidak ada jawaban benar atau salah
+            </strong>
+
+            <p>
+              Pilih respons yang paling sesuai dengan
+              pengalamanmu sendiri.
+            </p>
+
+          </div>
+
+
+          <button
+            class="btn btn-primary btn-large assessment-start-btn"
+            onclick="startStudentResponse()"
+          >
+            Mulai Respons Murid →
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCREEN 19 — RESPONSE SCALE
+    ==================================================== -->
+
+    <section
+      id="screenResponse"
+      class="screen"
+    >
+
+      <div class="assessment-page response-page">
+
+        <div class="assessment-topbar">
+
+          <div>
+
+            <div class="section-tag">
+              STUDENT EXPERIENCE
+            </div>
+
+            <h2>
+              Respons Murid
+            </h2>
+
+          </div>
+
+
+          <div class="assessment-counter">
+
+            <span>
+              PERNYATAAN
+            </span>
+
+            <strong id="responseCounter">
+              1 / 10
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="assessment-progress">
+
+          <div class="assessment-progress-info">
+
+            <span>
+              Progress Respons
+            </span>
+
+            <strong id="responseProgressText">
+              10%
+            </strong>
+
+          </div>
+
+
+          <div class="progress-track">
+
+            <div
+              id="responseProgressFill"
+              class="progress-fill"
+            ></div>
+
+          </div>
+
+        </div>
+
+
+        <div class="response-question-card">
+
+          <div class="question-meta">
+
+            <span class="indicator-badge response-indicator">
+              AI TRAP LAB EXPERIENCE
+            </span>
+
+            <span id="responseQuestionNumber">
+              STATEMENT 01
+            </span>
+
+          </div>
+
+
+          <div class="response-statement-label">
+            Berikan pendapatmu terhadap pernyataan berikut:
+          </div>
+
+
+          <h3 id="responseStatement">
+            Pernyataan respons.
+          </h3>
+
+
+          <div
+            id="responseOptions"
+            class="response-options"
+          >
+
+            <label class="response-option-card">
+
+              <input
+                type="radio"
+                name="studentResponse"
+                value="1"
+              >
+
+              <strong>1</strong>
+
+              <span>
+                Sangat Tidak Setuju
+              </span>
+
+            </label>
+
+
+            <label class="response-option-card">
+
+              <input
+                type="radio"
+                name="studentResponse"
+                value="2"
+              >
+
+              <strong>2</strong>
+
+              <span>
+                Tidak Setuju
+              </span>
+
+            </label>
+
+
+            <label class="response-option-card">
+
+              <input
+                type="radio"
+                name="studentResponse"
+                value="3"
+              >
+
+              <strong>3</strong>
+
+              <span>
+                Setuju
+              </span>
+
+            </label>
+
+
+            <label class="response-option-card">
+
+              <input
+                type="radio"
+                name="studentResponse"
+                value="4"
+              >
+
+              <strong>4</strong>
+
+              <span>
+                Sangat Setuju
+              </span>
+
+            </label>
+
+          </div>
+
+
+          <div class="assessment-navigation">
+
+            <button
+              id="responsePreviousButton"
+              class="btn btn-secondary"
+              onclick="previousStudentResponse()"
+            >
+              ← Sebelumnya
+            </button>
+
+
+            <button
+              id="responseNextButton"
+              class="btn btn-primary"
+              onclick="nextStudentResponse()"
+            >
+              Pernyataan Berikutnya →
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCREEN 20 — OPEN RESPONSE
+    ==================================================== -->
+
+    <section
+      id="screenReflection"
+      class="screen"
+    >
+
+      <div class="assessment-page reflection-page">
+
+        <div class="assessment-topbar">
+
+          <div>
+
+            <div class="section-tag">
+              FINAL REFLECTION
+            </div>
+
+            <h2>
+              Ceritakan Pengalamanmu
+            </h2>
+
+          </div>
+
+
+          <div class="assessment-counter">
+
+            <span>
+              REFLEKSI
+            </span>
+
+            <strong>
+              2 Pertanyaan
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="reflection-card">
+
+          <div class="reflection-block">
+
+            <div class="reflection-number">
+              01
+            </div>
+
+
+            <div>
+
+              <h3>
+                Bagian mana dari AI TRAP LAB yang paling membantu kamu belajar?
+              </h3>
+
+              <p>
+                Jelaskan secara singkat bagian atau aktivitas
+                yang menurutmu paling bermanfaat.
+              </p>
+
+            </div>
+
+
+            <textarea
+              id="reflectionHelpful"
+              class="reflection-textarea"
+              rows="5"
+              placeholder="Tuliskan pendapatmu di sini..."
+            ></textarea>
+
+          </div>
+
+
+          <div class="reflection-block">
+
+            <div class="reflection-number">
+              02
+            </div>
+
+
+            <div>
+
+              <h3>
+                Apa yang menurutmu perlu diperbaiki dari AI TRAP LAB?
+              </h3>
+
+              <p>
+                Tuliskan saran agar kegiatan belajar ini
+                menjadi lebih baik.
+              </p>
+
+            </div>
+
+
+            <textarea
+              id="reflectionImprovement"
+              class="reflection-textarea"
+              rows="5"
+              placeholder="Tuliskan saranmu di sini..."
+            ></textarea>
+
+          </div>
+
+
+          <div class="assessment-navigation">
+
+            <button
+              class="btn btn-secondary"
+              onclick="backToLastStudentResponse()"
+            >
+              ← Kembali
+            </button>
+
+
+            <button
+              class="btn btn-primary"
+              onclick="reviewStudentResponse()"
+            >
+              Periksa Respons →
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCREEN 21 — RESPONSE CONFIRM
+    ==================================================== -->
+
+    <section
+      id="screenResponseConfirm"
+      class="screen"
+    >
+
+      <div class="assessment-intro-wrapper">
+
+        <div class="assessment-intro-card">
+
+          <div class="assessment-icon response-icon">
+            R
+          </div>
+
+
+          <div class="section-tag">
+            FINAL CHECKPOINT
+          </div>
+
+
+          <h2>
+            Periksa Respons
+          </h2>
+
+
+          <p class="assessment-intro-text">
+
+            Pastikan seluruh pernyataan telah dijawab
+            sebelum menyelesaikan AI TRAP LAB.
+
+          </p>
+
+
+          <div class="pretest-summary-box">
+
+            <div>
+
+              <span>
+                Pernyataan Terjawab
+              </span>
+
+              <strong id="responseAnsweredSummary">
+                0 / 10
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <span>
+                Status
+              </span>
+
+              <strong id="responseCompletionStatus">
+                BELUM LENGKAP
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="responseMissingBox"
+            class="missing-question-box"
+          ></div>
+
+
+          <div class="response-reflection-summary">
+
+            <div>
+
+              <span>
+                Refleksi 01
+              </span>
+
+              <strong id="reflectionHelpfulStatus">
+                Belum diisi
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <span>
+                Refleksi 02
+              </span>
+
+              <strong id="reflectionImprovementStatus">
+                Belum diisi
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="assessment-warning">
+
+            <strong>
+              Tahap terakhir
+            </strong>
+
+            <p>
+              Setelah dikirim, seluruh rangkaian
+              AI TRAP LAB dinyatakan selesai.
+            </p>
+
+          </div>
+
+
+          <div class="assessment-confirm-actions">
+
+            <button
+              class="btn btn-secondary"
+              onclick="returnToStudentResponse()"
+            >
+              ← Periksa Kembali
+            </button>
+
+
+            <button
+              id="submitResponseButton"
+              class="btn btn-primary"
+              onclick="submitStudentResponse()"
+            >
+              Kirim & Selesaikan →
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         SCREEN 22 — FINAL COMPLETE
+    ==================================================== -->
+
+    <section
+      id="screenFinalComplete"
+      class="screen"
+    >
+
+      <div class="final-complete-wrapper">
+
+        <div class="final-complete-card">
+
+          <div class="final-complete-icon">
+            ✓
+          </div>
+
+
+          <div class="section-tag">
+            ALL PROTOCOLS COMPLETE
+          </div>
+
+
+          <h1>
+            AI TRAP LAB
+            <span>Complete</span>
+          </h1>
+
+
+          <p class="final-complete-description">
+
+            Kamu telah menyelesaikan seluruh rangkaian
+            pembelajaran dan asesmen AI TRAP LAB.
+
+          </p>
+
+
+          <div class="final-stage-grid">
+
+            <div class="final-stage-item complete">
+
+              <span>01</span>
+
+              <div>
+                <strong>Pretest CT</strong>
+                <small>Completed</small>
+              </div>
+
+              <b>✓</b>
+
+            </div>
+
+
+            <div class="final-stage-item complete">
+
+              <span>02</span>
+
+              <div>
+                <strong>15 Missions</strong>
+                <small>Completed</small>
+              </div>
+
+              <b>✓</b>
+
+            </div>
+
+
+            <div class="final-stage-item complete">
+
+              <span>03</span>
+
+              <div>
+                <strong>Posttest CT</strong>
+                <small>Completed</small>
+              </div>
+
+              <b>✓</b>
+
+            </div>
+
+
+            <div class="final-stage-item complete">
+
+              <span>04</span>
+
+              <div>
+                <strong>Critical AI Literacy</strong>
+                <small>Completed</small>
+              </div>
+
+              <b>✓</b>
+
+            </div>
+
+
+            <div class="final-stage-item complete">
+
+              <span>05</span>
+
+              <div>
+                <strong>Respons Murid</strong>
+                <small>Completed</small>
+              </div>
+
+              <b>✓</b>
+
+            </div>
+
+          </div>
+
+
+          <div class="final-message">
+
+            <span>
+              INVESTIGATOR PRINCIPLE
+            </span>
+
+            <strong>
+              Jangan langsung percaya atau menolak.
+            </strong>
+
+            <p>
+              Periksa klaim, uji dengan bukti,
+              perbaiki jika diperlukan,
+              kemudian jelaskan alasanmu.
+            </p>
+
+          </div>
+
+
+          <div class="final-participant">
+
+            <span>
+              PARTICIPANT
+            </span>
+
+            <strong id="finalParticipantCode">
+              VII1-01
+            </strong>
+
+            <small id="finalParticipantClass">
+              VII-1
+            </small>
+
+          </div>
+
+
+          <p class="final-close-note">
+
+            Terima kasih telah menyelesaikan
+            AI TRAP LAB.
+
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+
+  <!-- =====================================================
+       FOOTER
+  ====================================================== -->
+
+  <footer class="app-footer">
+
+    <span>
+      AI TRAP LAB
+    </span>
+
+    <span>
+      CLAIM • CHECK • TEST • CORRECT • JUSTIFY
+    </span>
+
+  </footer>
+
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+  ====================================================== -->
+
+  <script src="js/missions.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/rc2-session.js"></script>
+  <script src="js/test-mode.js"></script>
+  <script src="js/game-map.js"></script>
+  <script src="js/mission-gameplay.js"></script>
+  <script src="js/result-screen.js"></script>
+  <script src="js/mission-auto-test.js"></script>
+  <script src="js/final-complete.js"></script>
+  <script src="js/release-check.js"></script>
+  <script src="js/simulation-seeder.js"></script>
+
+</body>
+
+</html>
